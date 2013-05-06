@@ -1,0 +1,10 @@
+messages:
+  errors:
+    groups_dont_exist: '&cGroup{s} &6%s &c{DONT} exist.'
+    player_doesnt_exist: '&cThat player doesn''t exist.'
+  notices:
+    player_part_of_groups: '&aPlayer &6%s &ais part of group{s}: &6%s'
+    plugin_reloaded: '&cPlugin files reloaded from the disk.'
+    promotion_message: '&aPlayer &6%s &ais now {a|an} &6%s&a!'
+    private_promotion_message: '&aYou are now {a|an} &6%s&a!'
+    you_promoted: '&aYou promoted &6%s &ato {a|an} &6%s&a!'

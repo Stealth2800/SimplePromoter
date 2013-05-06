@@ -1,0 +1,9 @@
+help:
+  simplepromoter:
+    help:
+      self:
+        - '&e/simplepromoter help [page] &6&o- Access help page'
+        - '&e/simplepromoter version &6&o- Show plugin version'
+        - '&e/simplepromoter reload &6&o- Reload plugin files'
+        - '&e/checkrank <player> &6&o- Show groups a player is part of'
+        - '&e/setrank <player> <rank> [rank]... [yes/no] &6&o- Set a player to one (or more) ranks. ''Yes'' broadcasts the message, ''no'' doesn''t.'

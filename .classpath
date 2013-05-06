@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src/main/java"/>
+	<classpathentry kind="src" path="src/main/resources"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="lib/bukkit-1.5.2-R0.2-20130503.224119-1.jar"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/StCommonLib"/>
+	<classpathentry kind="lib" path="/StCommonLib/bin"/>
+	<classpathentry kind="lib" path="lib/PermissionsEx.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

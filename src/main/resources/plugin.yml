@@ -1,0 +1,17 @@
+name: SimplePromoter
+author: Stealth2800
+version: 1.0
+website: http://stealthyone.com/bukkit
+description: Simple promoter plugin for PermissionsEx that has very modifiable permission support
+depend: [PermissionsEx]
+main: com.stealthyone.bukkit.simplepromoter.SimplePromoter
+commands:
+  simplepromoter:
+    description: 'Base plugin command'
+    usage: '/<command>'
+  setrank:
+    description: 'Base pro/de-motion command'
+    usage: '/<command>'
+  checkrank:
+    description: 'Check a player''s groups'
+    usage: '/<command> <player>'
