@@ -9,8 +9,10 @@ import com.stealthyone.bukkit.simplepromoter.commands.CmdCheckrank;
 import com.stealthyone.bukkit.simplepromoter.commands.CmdSetrank;
 import com.stealthyone.bukkit.simplepromoter.commands.CmdSimplePromoter;
 import com.stealthyone.bukkit.simplepromoter.config.ConfigHelper;
-import com.stealthyone.bukkit.stcommonlib.messages.HelpManager;
-import com.stealthyone.bukkit.stcommonlib.messages.MessageRetriever;
+import com.stealthyone.bukkit.simplepromoter.messages.HelpManager;
+import com.stealthyone.bukkit.simplepromoter.messages.MessageRetriever;
+import com.stealthyone.bukkit.simplepromoter.utils.UpdateCheckRunnable;
+import com.stealthyone.bukkit.simplepromoter.utils.UpdateChecker;
 
 public final class SimplePromoter extends JavaPlugin {
 
@@ -75,6 +77,8 @@ public final class SimplePromoter extends JavaPlugin {
 		getCommand("setrank").setExecutor(new CmdSetrank(this));
 		getCommand("simplepromoter").setExecutor(new CmdSimplePromoter(this));
 		
+		getServer().getScheduler().runTaskTimerAsynchronously(this, new UpdateCheckRunnable(this), 40, 432000);
+		
 		PluginLogger.info(String.format("%s v%s by Stealth2800 enabled!", getName(), getVersion()));
 	}
 	
@@ -89,6 +93,10 @@ public final class SimplePromoter extends JavaPlugin {
 	
 	public final boolean isDebug() {
 		return (boolean) ConfigHelper.DEBUG.get();
+	}
+	
+	public final boolean isUpdate() {
+		return new UpdateChecker(this, "http://dev.bukkit.org/server-mods/simplepromoter/files.rss").updateNeeded();
 	}
 	
 	public final MessageRetriever getMessageHandler() {

@@ -26,6 +26,10 @@ public final class CmdCheckrank implements CommandExecutor {
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+		if (!sender.hasPermission("simplepromoter.checkrank")) {
+			ErrorMessage.NO_PERMISSION.sendTo(sender);
+			return true;
+		}
 		if (args.length == 0) {
 			UsageMessage.CHECKRANK.sendTo(sender);
 			return true;

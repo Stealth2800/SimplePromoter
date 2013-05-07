@@ -4,7 +4,8 @@ import com.stealthyone.bukkit.simplepromoter.SimplePromoter;
 
 public enum ConfigHelper {
 
-	DEBUG("Debug", false);
+	DEBUG("Debug", false),
+	CHECK_FOR_UPDATES("Check for updates", true);
 	
 	private String key;
 	private Object value;
