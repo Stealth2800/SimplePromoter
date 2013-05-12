@@ -51,6 +51,8 @@ public final class SimplePromoter extends JavaPlugin {
 	private MessageRetriever messageHandler;
 	private HelpManager helpHandler;
 	
+	private boolean isHookAdvancedTitles;
+	
 	@Override
 	public final void onLoad() {
 		log = getServer().getLogger();
@@ -77,8 +79,15 @@ public final class SimplePromoter extends JavaPlugin {
 		getCommand("setrank").setExecutor(new CmdSetrank(this));
 		getCommand("simplepromoter").setExecutor(new CmdSimplePromoter(this));
 		
-		getServer().getScheduler().runTaskTimerAsynchronously(this, new UpdateCheckRunnable(this), 40, 432000);
+		//Setup hooks
+		if (getServer().getPluginManager().getPlugin("AdvancedTitles") != null) {
+			log.info("Hooked with AdvancedTitles v" + getServer().getPluginManager().getPlugin("AdvancedTitles").getDescription().getVersion());
+			isHookAdvancedTitles = true;
+		} else {
+			isHookAdvancedTitles = false;
+		}
 		
+		getServer().getScheduler().runTaskTimerAsynchronously(this, new UpdateCheckRunnable(this), 40, 432000);
 		PluginLogger.info(String.format("%s v%s by Stealth2800 enabled!", getName(), getVersion()));
 	}
 	
@@ -97,6 +106,10 @@ public final class SimplePromoter extends JavaPlugin {
 	
 	public final boolean isUpdate() {
 		return new UpdateChecker(this, "http://dev.bukkit.org/server-mods/simplepromoter/files.rss").updateNeeded();
+	}
+	
+	public boolean isAdvancedTitles() {
+		return this.isHookAdvancedTitles;
 	}
 	
 	public final MessageRetriever getMessageHandler() {

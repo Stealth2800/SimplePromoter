@@ -15,6 +15,7 @@ import org.bukkit.command.CommandSender;
 
 import ru.tehkode.permissions.bukkit.PermissionsEx;
 
+import com.stealthyone.bukkit.advancedtitles.TitleManager;
 import com.stealthyone.bukkit.simplepromoter.SimplePromoter;
 import com.stealthyone.bukkit.simplepromoter.SimplePromoter.PluginLogger;
 import com.stealthyone.bukkit.simplepromoter.messages.ErrorMessage;
@@ -132,12 +133,16 @@ public final class CmdSetrank implements CommandExecutor {
 			}
 			
 			PermissionsEx.getUser(targetName).setGroups(allowedGroups.toArray(new String[allowedGroups.size()]));
-			
-			String message = NoticeMessage.PROMOTION_MESSAGE.getMessage()[0];
-			if (!isBroadcast) {
-				message = NoticeMessage.PRIVATE_PROMOTION_MESSAGE.getMessage()[0];
+
+			//Set the rank(s) of the player
+			String[] groupCast = allowedGroups.toArray(new String[allowedGroups.size()]);
+			if (plugin.isAdvancedTitles()) {
+				//If hooked with advanced titles, call settitle method
+				TitleManager titleManager = com.stealthyone.bukkit.advancedtitles.BasePlugin.getTitleManager();
+				titleManager.setTitle(targetName, groupCast);
 			}
-			String messageToBroadcast = ChatColor.translateAlternateColorCodes('&', String.format(message, targetName, groups).replace("{a|an}", aChar));
+			
+			String messageToBroadcast = ChatColor.translateAlternateColorCodes('&', String.format(NoticeMessage.PROMOTION_MESSAGE.getMessage()[0], targetName, groups).replace("{a|an}", aChar));
 			String youPromoted = NoticeMessage.YOU_PROMOTED.getMessage()[0].replace("[", "").replace("]", "").replace("{a|an}", aChar);
 			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', String.format(youPromoted, targetName, groups)));
 			if (target.isOnline()) {
@@ -147,7 +152,7 @@ public final class CmdSetrank implements CommandExecutor {
 				Bukkit.broadcastMessage(messageToBroadcast);
 			} else {
 				if (target.isOnline()) {
-					target.getPlayer().sendMessage(messageToBroadcast);
+					NoticeMessage.PRIVATE_PROMOTION_MESSAGE.sendTo(sender, groups);
 				}
 			}
 			if (!nonexistantGroups.equalsIgnoreCase("")) {
