@@ -35,10 +35,6 @@ public final class CmdCheckrank implements CommandExecutor {
 			return true;
 		} else {
 			OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
-			if (!target.hasPlayedBefore()) {
-				ErrorMessage.PLAYER_DOESNT_EXIST.sendTo(sender);
-				return true;
-			}
 			
 			String playerName = target.getName();
 			String groupNames = Arrays.toString(PermissionsEx.getUser(playerName).getGroupsNames()).replace("[", "").replace("]", "");

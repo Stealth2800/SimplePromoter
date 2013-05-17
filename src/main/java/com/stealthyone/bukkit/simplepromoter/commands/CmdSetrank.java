@@ -42,10 +42,6 @@ public final class CmdSetrank implements CommandExecutor {
 			return true;
 		} else {
 			OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
-			if (!target.hasPlayedBefore()) {
-				ErrorMessage.PLAYER_DOESNT_EXIST.sendTo(sender);
-				return true;
-			}
 			
 			List<String> newArgs = new ArrayList<String>(Arrays.asList(args));
 			newArgs.remove(0);
