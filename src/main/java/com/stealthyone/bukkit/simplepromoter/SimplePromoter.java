@@ -64,9 +64,6 @@ public final class SimplePromoter extends JavaPlugin {
 	@Override
 	public final void onEnable() {
 		// Setup config //
-		for (ConfigHelper obj : ConfigHelper.values()) {
-			obj.addDefault();
-		}
 		getConfig().options().copyDefaults(true);
 		saveConfig();
 		
