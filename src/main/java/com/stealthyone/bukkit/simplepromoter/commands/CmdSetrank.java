@@ -18,6 +18,7 @@ import ru.tehkode.permissions.bukkit.PermissionsEx;
 import com.stealthyone.bukkit.advancedtitles.TitleManager;
 import com.stealthyone.bukkit.simplepromoter.SimplePromoter;
 import com.stealthyone.bukkit.simplepromoter.SimplePromoter.PluginLogger;
+import com.stealthyone.bukkit.simplepromoter.config.ConfigHelper;
 import com.stealthyone.bukkit.simplepromoter.messages.ErrorMessage;
 import com.stealthyone.bukkit.simplepromoter.messages.NoticeMessage;
 import com.stealthyone.bukkit.simplepromoter.messages.UsageMessage;
@@ -53,6 +54,7 @@ public final class CmdSetrank implements CommandExecutor {
 			
 			String nonexistantGroups = "";
 			String noPermGroups = "";
+			String notFromGroups = "";
 			
 			List<String> allowedGroups = new ArrayList<String>();
 			
@@ -67,6 +69,15 @@ public final class CmdSetrank implements CommandExecutor {
 							noPermGroups += PermissionsEx.getPermissionManager().getGroup(groupName).getName();
 							continue;
 						}
+						for (String fromGroup : PermissionsEx.getUser(target.getName()).getGroupsNames()) {
+							if (!sender.hasPermission("simplepromoter.from." + fromGroup.toLowerCase())) {
+								if (!notFromGroups.equalsIgnoreCase("")) {
+									notFromGroups += ", ";
+								}
+								notFromGroups += PermissionsEx.getPermissionManager().getGroup(groupName).getName();
+								continue;
+							}
+						}
 						if (!groups.equalsIgnoreCase("")) {
 							groups += ", ";
 						}
@@ -74,11 +85,7 @@ public final class CmdSetrank implements CommandExecutor {
 						allowedGroups.add(PermissionsEx.getPermissionManager().getGroup(groupName).getName());
 						groupCount ++;
 					} else {
-						if (nonexistantGroups.equalsIgnoreCase("")) {
-							nonexistantGroups += groupName;
-						} else {
-							nonexistantGroups += ", " + groupName;
-						}
+						nonexistantGroups += nonexistantGroups.equalsIgnoreCase("") ? groupName : "," + groupName;
 					}
 				} else {
 					newArgsIterator.remove();
@@ -109,6 +116,9 @@ public final class CmdSetrank implements CommandExecutor {
 						}
 						sender.sendMessage(ChatColor.translateAlternateColorCodes('&', String.format(groupNoPermMsg, noPermGroups)));
 					}
+					if (!notFromGroups.equalsIgnoreCase("")) {
+						sender.sendMessage(ChatColor.translateAlternateColorCodes('&', String.format(Arrays.toString(ErrorMessage.NO_PERM_FOR_FROM.getMessage()).replace("[", "").replace("]", ""), notFromGroups)));
+					}
 				}
 				return true;
 			}
@@ -117,11 +127,7 @@ public final class CmdSetrank implements CommandExecutor {
 			
 			String aChar = "a";
 			
-			if (StringUtils.startsWithVowel(groups)) {
-				aChar = "an";
-			} else {
-				aChar = "a";
-			}
+			aChar = StringUtils.startsWithVowel(groups) ? "an" : "a";
 			
 			boolean isBroadcast = true;
 			if (args[args.length - 1].equalsIgnoreCase("no")) {
@@ -134,6 +140,7 @@ public final class CmdSetrank implements CommandExecutor {
 			String[] groupCast = allowedGroups.toArray(new String[allowedGroups.size()]);
 			if (plugin.isAdvancedTitles()) {
 				//If hooked with advanced titles, call settitle method
+				//AdvancedTitles is currently a private plugin, may be released on BukkitDev later
 				TitleManager titleManager = com.stealthyone.bukkit.advancedtitles.BasePlugin.getTitleManager();
 				titleManager.setTitle(targetName, groupCast);
 			}
@@ -142,7 +149,9 @@ public final class CmdSetrank implements CommandExecutor {
 			String youPromoted = NoticeMessage.YOU_PROMOTED.getMessage()[0].replace("[", "").replace("]", "").replace("{a|an}", aChar);
 			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', String.format(youPromoted, targetName, groups)));
 			if (target.isOnline()) {
-				target.getPlayer().playSound(target.getPlayer().getLocation(), Sound.LEVEL_UP, 1.0F, 1.0F);
+				if ((boolean) ConfigHelper.ENABLE_PROMOTION_SOUND.get()) {
+					target.getPlayer().playSound(target.getPlayer().getLocation(), Sound.LEVEL_UP, 1.0F, 1.0F);
+				}
 			}
 			if (isBroadcast) {
 				Bukkit.broadcastMessage(messageToBroadcast);
@@ -168,6 +177,9 @@ public final class CmdSetrank implements CommandExecutor {
 					groupNoPermMsg = groupNoPermMsg.replace("{DONT}", "don't").replace("{s}", "s");
 				}
 				sender.sendMessage(ChatColor.translateAlternateColorCodes('&', String.format(groupNoPermMsg, noPermGroups)));
+			}
+			if (!notFromGroups.equalsIgnoreCase("")) {
+				sender.sendMessage(ChatColor.translateAlternateColorCodes('&', String.format(Arrays.toString(ErrorMessage.NO_PERM_FOR_FROM.getMessage()).replace("[", "").replace("]", ""), notFromGroups)));
 			}
 			return true;
 		}

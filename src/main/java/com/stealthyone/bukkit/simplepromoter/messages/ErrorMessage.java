@@ -9,6 +9,7 @@ public enum ErrorMessage implements IMessagePath {
 	
 	GROUPS_DONT_EXIST,
 	NO_PERM_FOR_GROUPS,
+	NO_PERM_FOR_FROM,
 	PLAYER_DOESNT_EXIST,
 	NO_PERMISSION;
 	  
