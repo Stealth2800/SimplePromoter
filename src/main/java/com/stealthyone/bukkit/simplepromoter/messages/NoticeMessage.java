@@ -4,6 +4,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
 import com.stealthyone.bukkit.simplepromoter.SimplePromoter;
+import com.stealthyone.bukkit.stcommonlib.messages.IMessagePath;
+import com.stealthyone.bukkit.stcommonlib.messages.MessageRetriever;
 
 public enum NoticeMessage implements IMessagePath {
 	

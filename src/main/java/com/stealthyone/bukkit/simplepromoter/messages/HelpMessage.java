@@ -6,6 +6,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
 import com.stealthyone.bukkit.simplepromoter.SimplePromoter;
+import com.stealthyone.bukkit.stcommonlib.messages.HelpManager;
 
 public enum HelpMessage {
 

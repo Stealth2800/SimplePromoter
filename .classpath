@@ -6,5 +6,6 @@
 	<classpathentry kind="lib" path="lib/bukkit-1.5.2-R0.2-20130503.224119-1.jar"/>
 	<classpathentry kind="lib" path="lib/PermissionsEx.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/AdvancedTitlesPEX"/>
+	<classpathentry kind="lib" path="/StCommonLib/bin"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

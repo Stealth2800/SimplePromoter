@@ -9,13 +9,32 @@ import com.stealthyone.bukkit.simplepromoter.commands.CmdCheckrank;
 import com.stealthyone.bukkit.simplepromoter.commands.CmdSetrank;
 import com.stealthyone.bukkit.simplepromoter.commands.CmdSimplePromoter;
 import com.stealthyone.bukkit.simplepromoter.config.ConfigHelper;
-import com.stealthyone.bukkit.simplepromoter.messages.HelpManager;
-import com.stealthyone.bukkit.simplepromoter.messages.MessageRetriever;
 import com.stealthyone.bukkit.simplepromoter.utils.UpdateCheckRunnable;
-import com.stealthyone.bukkit.simplepromoter.utils.UpdateChecker;
+import com.stealthyone.bukkit.stcommonlib.messages.HelpManager;
+import com.stealthyone.bukkit.stcommonlib.messages.MessageRetriever;
 
 public final class SimplePromoter extends JavaPlugin {
-
+	
+	public final static class Log {
+		
+		public final static void debug(String message) {
+			if (ConfigHelper.DEBUG.get())
+				instance.logger.log(Level.INFO, String.format("[%s DEBUG] %s", instance.getName(), message));
+		}
+		
+		public final static void info(String message) {
+			instance.logger.log(Level.INFO, String.format("[%s] %s", instance.getName(), message));
+		}
+		
+		public final static void warning(String message) {
+			instance.logger.log(Level.WARNING, String.format("[%s] %s", instance.getName(), message));
+		}
+		
+		public final static void severe(String message) {
+			instance.logger.log(Level.SEVERE, String.format("[%s] %s", instance.getName(), message));
+		}
+	}
+	
 	private static SimplePromoter instance;
 	{
 		instance = this;
@@ -25,95 +44,68 @@ public final class SimplePromoter extends JavaPlugin {
 		return instance;
 	}
 	
-	public final static class PluginLogger {
-		
-		public final static void debug(String message) {
-			if (SimplePromoter.getInstance().isDebug()) {
-				SimplePromoter.getInstance().log.log(Level.INFO, String.format("[%s DEBUG] %s", SimplePromoter.getInstance().getName(), message));
-			}
-		}
-		
-		public final static void info(String message) {
-			SimplePromoter.getInstance().log.log(Level.INFO, String.format("[%s] %s", SimplePromoter.getInstance().getName(), message));
-		}
-		
-		public final static void warning(String message) {
-			SimplePromoter.getInstance().log.log(Level.WARNING, String.format("[%s] %s", SimplePromoter.getInstance().getName(), message));
-		}
-		
-		public final static void severe(String message) {
-			SimplePromoter.getInstance().log.log(Level.SEVERE, String.format("[%s] %s", SimplePromoter.getInstance().getName(), message));
-		}
-	}
+	public final static String UPDATE_URL = "http://dev.bukkit.org/server-mods/simplepromoter/files.rss";
 	
-	private Logger log;
+	private Logger logger;
 	
-	private MessageRetriever messageHandler;
 	private HelpManager helpHandler;
+	private MessageRetriever messageHandler;
 	
 	private boolean isHookAdvancedTitles;
 	
 	@Override
 	public final void onLoad() {
-		log = getServer().getLogger();
-		if (!getDataFolder().exists()) {
+		logger = getServer().getLogger();
+		if (!getDataFolder().exists())
 			getDataFolder().mkdir();
-		}
 	}
 	
 	@Override
 	public final void onEnable() {
-		// Setup config //
+		/* Setup config */
+		saveDefaultConfig();
 		getConfig().options().copyDefaults(true);
 		saveConfig();
 		
-		// Setup important plugin pieces //
-		messageHandler = new MessageRetriever(this, "messages");
-		helpHandler =  new HelpManager(this, "help");
+		/* Setup important plugin pieces */
+		helpHandler =  new HelpManager(this);
+		messageHandler = new MessageRetriever(this);
 		
-		// Register commands //
+		/* Register commands */
 		getCommand("checkrank").setExecutor(new CmdCheckrank(this));
 		getCommand("setrank").setExecutor(new CmdSetrank(this));
 		getCommand("simplepromoter").setExecutor(new CmdSimplePromoter(this));
 		
-		//Setup hooks
+		/* Setup hooks */
 		if (getServer().getPluginManager().getPlugin("AdvancedTitles") != null) {
-			log.info("Hooked with AdvancedTitles v" + getServer().getPluginManager().getPlugin("AdvancedTitles").getDescription().getVersion());
+			logger.info("Hooked with AdvancedTitles v" + getServer().getPluginManager().getPlugin("AdvancedTitles").getDescription().getVersion());
 			isHookAdvancedTitles = true;
 		} else {
 			isHookAdvancedTitles = false;
 		}
 		
 		getServer().getScheduler().runTaskTimerAsynchronously(this, new UpdateCheckRunnable(this), 40, 432000);
-		PluginLogger.info(String.format("%s v%s by Stealth2800 enabled!", getName(), getVersion()));
+		Log.info(String.format("%s v%s by Stealth2800 enabled!", getName(), getVersion()));
 	}
 	
 	@Override
 	public final void onDisable() {
-		PluginLogger.info(String.format("%s v%s by Stealth2800 disabled!", getName(), getVersion()));
+		Log.info(String.format("%s v%s by Stealth2800 disabled!", getName(), getVersion()));
 	}
 	
 	public final String getVersion() {
 		return getDescription().getVersion();
 	}
 	
-	public final boolean isDebug() {
-		return (boolean) ConfigHelper.DEBUG.get();
-	}
-	
-	public final boolean isUpdate() {
-		return new UpdateChecker(this, "http://dev.bukkit.org/server-mods/simplepromoter/files.rss").updateNeeded();
-	}
-	
-	public boolean isAdvancedTitles() {
-		return this.isHookAdvancedTitles;
+	public final HelpManager getHelpHandler() {
+		return this.helpHandler;
 	}
 	
 	public final MessageRetriever getMessageHandler() {
 		return this.messageHandler;
 	}
 	
-	public final HelpManager getHelpHandler() {
-		return this.helpHandler;
+	public boolean isAdvancedTitles() {
+		return this.isHookAdvancedTitles;
 	}
 }

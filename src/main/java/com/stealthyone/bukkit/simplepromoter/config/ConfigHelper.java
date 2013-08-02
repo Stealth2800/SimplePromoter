@@ -1,24 +1,9 @@
 package com.stealthyone.bukkit.simplepromoter.config;
 
-import com.stealthyone.bukkit.simplepromoter.SimplePromoter;
-
-public enum ConfigHelper {
-
-	DEBUG("Debug"),
-	CHECK_FOR_UPDATES("Check for updates"),
-	ENABLE_PROMOTION_SOUND("Enable sound on promotion");
+public final class ConfigHelper {
 	
-	private String key;
+	public final static ConfigBoolean CHECK_FOR_UPDATES = ConfigBoolean.CHECK_FOR_UPDATES;
+	public final static ConfigBoolean DEBUG = ConfigBoolean.DEBUG;
+	public final static ConfigBoolean ENABLE_PROMOTION_SOUND = ConfigBoolean.ENABLE_PROMOTION_SOUND;
 	
-	private ConfigHelper(String key) {
-		this.key = key;
-	}
-	
-	public final Object get() {
-		return SimplePromoter.getInstance().getConfig().get(key);
-	}
-	
-	public final void set(Object newValue) {
-		SimplePromoter.getInstance().getConfig().set(key, newValue);
-	}
 }

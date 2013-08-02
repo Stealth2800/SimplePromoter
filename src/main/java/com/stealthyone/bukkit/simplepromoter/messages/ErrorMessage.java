@@ -4,14 +4,18 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
 import com.stealthyone.bukkit.simplepromoter.SimplePromoter;
+import com.stealthyone.bukkit.stcommonlib.messages.IMessagePath;
+import com.stealthyone.bukkit.stcommonlib.messages.MessageRetriever;
 
 public enum ErrorMessage implements IMessagePath {
 	
 	GROUPS_DONT_EXIST,
+	NAME_MATCHES_MULTIPLE,
 	NO_PERM_FOR_GROUPS,
 	NO_PERM_FOR_FROM,
 	PLAYER_DOESNT_EXIST,
-	NO_PERMISSION;
+	NO_PERMISSION,
+	UNKNOWN_COMMAND;
 	  
 	private final String PREFIX = "messages.errors.";
 	  
