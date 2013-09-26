@@ -1,18 +1,15 @@
-package com.stealthyone.bukkit.simplepromoter.utils;
+package com.stealthyone.mcb.simplepromoter;
 
-import java.io.InputStream;
-import java.net.URL;
-import java.net.URLConnection;
-
-import javax.xml.parsers.DocumentBuilderFactory;
-
+import com.stealthyone.mcb.simplepromoter.SimplePromoter.Log;
+import com.stealthyone.mcb.stbukkitlib.lib.utils.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import com.stealthyone.bukkit.simplepromoter.SimplePromoter;
-import com.stealthyone.bukkit.simplepromoter.SimplePromoter.Log;
-import com.stealthyone.bukkit.stcommonlib.utils.StringUtils;
+import javax.xml.parsers.DocumentBuilderFactory;
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
 
 public final class UpdateChecker {
 	

@@ -1,9 +1,9 @@
 name: SimplePromoter
 author: Stealth2800
-version: 2.0.3
+version: 2.0.4
 website: http://stealthyone.com/bukkit
 description: Simple promoter plugin for PermissionsEx that has very modifiable permission support
-depend: [PermissionsEx]
+depend: [PermissionsEx,StBukkitLib]
 main: com.stealthyone.bukkit.simplepromoter.SimplePromoter
 commands:
   simplepromoter:

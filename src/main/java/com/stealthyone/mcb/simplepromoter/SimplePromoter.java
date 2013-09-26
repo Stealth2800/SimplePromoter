@@ -1,24 +1,22 @@
-package com.stealthyone.bukkit.simplepromoter;
+package com.stealthyone.mcb.simplepromoter;
+
+import com.stealthyone.mcb.simplepromoter.commands.CmdCheckrank;
+import com.stealthyone.mcb.simplepromoter.commands.CmdSetrank;
+import com.stealthyone.mcb.simplepromoter.commands.CmdSimplePromoter;
+import com.stealthyone.mcb.simplepromoter.config.ConfigHelper;
+import com.stealthyone.mcb.stbukkitlib.lib.messages.HelpManager;
+import com.stealthyone.mcb.stbukkitlib.lib.messages.MessageRetriever;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import org.bukkit.plugin.java.JavaPlugin;
-
-import com.stealthyone.bukkit.simplepromoter.commands.CmdCheckrank;
-import com.stealthyone.bukkit.simplepromoter.commands.CmdSetrank;
-import com.stealthyone.bukkit.simplepromoter.commands.CmdSimplePromoter;
-import com.stealthyone.bukkit.simplepromoter.config.ConfigHelper;
-import com.stealthyone.bukkit.simplepromoter.utils.UpdateCheckRunnable;
-import com.stealthyone.bukkit.stcommonlib.messages.HelpManager;
-import com.stealthyone.bukkit.stcommonlib.messages.MessageRetriever;
 
 public final class SimplePromoter extends JavaPlugin {
 	
 	public final static class Log {
 		
 		public final static void debug(String message) {
-			if (ConfigHelper.DEBUG.get())
+			if (ConfigHelper.DEBUG.getBoolean())
 				instance.logger.log(Level.INFO, String.format("[%s DEBUG] %s", instance.getName(), message));
 		}
 		
@@ -33,6 +31,7 @@ public final class SimplePromoter extends JavaPlugin {
 		public final static void severe(String message) {
 			instance.logger.log(Level.SEVERE, String.format("[%s] %s", instance.getName(), message));
 		}
+
 	}
 	
 	private static SimplePromoter instance;
@@ -50,8 +49,6 @@ public final class SimplePromoter extends JavaPlugin {
 	
 	private HelpManager helpHandler;
 	private MessageRetriever messageHandler;
-	
-	private boolean isHookAdvancedTitles;
 	
 	@Override
 	public final void onLoad() {
@@ -76,14 +73,6 @@ public final class SimplePromoter extends JavaPlugin {
 		getCommand("setrank").setExecutor(new CmdSetrank(this));
 		getCommand("simplepromoter").setExecutor(new CmdSimplePromoter(this));
 		
-		/* Setup hooks */
-		if (getServer().getPluginManager().getPlugin("AdvancedTitles") != null) {
-			logger.info("Hooked with AdvancedTitles v" + getServer().getPluginManager().getPlugin("AdvancedTitles").getDescription().getVersion());
-			isHookAdvancedTitles = true;
-		} else {
-			isHookAdvancedTitles = false;
-		}
-		
 		getServer().getScheduler().runTaskTimerAsynchronously(this, new UpdateCheckRunnable(this), 40, 432000);
 		Log.info(String.format("%s v%s by Stealth2800 enabled!", getName(), getVersion()));
 	}
@@ -104,8 +93,5 @@ public final class SimplePromoter extends JavaPlugin {
 	public final MessageRetriever getMessageHandler() {
 		return this.messageHandler;
 	}
-	
-	public boolean isAdvancedTitles() {
-		return this.isHookAdvancedTitles;
-	}
+
 }

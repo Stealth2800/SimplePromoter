@@ -1,15 +1,15 @@
-package com.stealthyone.bukkit.simplepromoter.commands;
+package com.stealthyone.mcb.simplepromoter.commands;
 
+import com.stealthyone.mcb.simplepromoter.SimplePromoter;
+import com.stealthyone.mcb.simplepromoter.UpdateChecker;
+import com.stealthyone.mcb.simplepromoter.messages.ErrorMessage;
+import com.stealthyone.mcb.simplepromoter.messages.HelpMessage;
+import com.stealthyone.mcb.simplepromoter.messages.NoticeMessage;
+import com.stealthyone.mcb.simplepromoter.permissions.PermissionNode;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-
-import com.stealthyone.bukkit.simplepromoter.SimplePromoter;
-import com.stealthyone.bukkit.simplepromoter.messages.ErrorMessage;
-import com.stealthyone.bukkit.simplepromoter.messages.HelpMessage;
-import com.stealthyone.bukkit.simplepromoter.messages.NoticeMessage;
-import com.stealthyone.bukkit.simplepromoter.utils.UpdateChecker;
 
 public final class CmdSimplePromoter implements CommandExecutor {
 
@@ -59,7 +59,7 @@ public final class CmdSimplePromoter implements CommandExecutor {
 	 * @param args
 	 */
 	private final void cmdHelp(CommandSender sender, Command command, String label, String[] args) {
-		if (!sender.hasPermission("simplepromoter.help")) {
+		if (!PermissionNode.HELP.isAllowed(sender)) {
 			ErrorMessage.NO_PERMISSION.sendTo(sender);
 		} else {
 			int pageNum = 1;
@@ -80,7 +80,7 @@ public final class CmdSimplePromoter implements CommandExecutor {
 	 * @param args
 	 */
 	private final void cmdReload(CommandSender sender, Command command, String label, String[] args) {
-		if (!sender.hasPermission("simplepromoter.reload")) {
+		if (!PermissionNode.ADMIN_RELOAD.isAllowed(sender)) {
 			ErrorMessage.NO_PERMISSION.sendTo(sender);
 		} else {
 			plugin.reloadConfig();

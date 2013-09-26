@@ -1,20 +1,19 @@
-package com.stealthyone.bukkit.simplepromoter.commands;
+package com.stealthyone.mcb.simplepromoter.commands;
 
-import java.util.Arrays;
-
+import com.stealthyone.mcb.simplepromoter.SimplePromoter;
+import com.stealthyone.mcb.simplepromoter.messages.ErrorMessage;
+import com.stealthyone.mcb.simplepromoter.messages.NoticeMessage;
+import com.stealthyone.mcb.simplepromoter.messages.UsageMessage;
+import com.stealthyone.mcb.simplepromoter.permissions.PermissionNode;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-
 import ru.tehkode.permissions.bukkit.PermissionsEx;
 
-import com.stealthyone.bukkit.simplepromoter.SimplePromoter;
-import com.stealthyone.bukkit.simplepromoter.messages.ErrorMessage;
-import com.stealthyone.bukkit.simplepromoter.messages.NoticeMessage;
-import com.stealthyone.bukkit.simplepromoter.messages.UsageMessage;
+import java.util.Arrays;
 
 public final class CmdCheckrank implements CommandExecutor {
 
@@ -26,7 +25,7 @@ public final class CmdCheckrank implements CommandExecutor {
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if (!sender.hasPermission("simplepromoter.checkrank")) {
+		if (!PermissionNode.CHECKRANK.isAllowed(sender)) {
 			ErrorMessage.NO_PERMISSION.sendTo(sender);
 			return true;
 		}

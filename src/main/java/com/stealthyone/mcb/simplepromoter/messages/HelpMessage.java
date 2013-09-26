@@ -1,12 +1,11 @@
-package com.stealthyone.bukkit.simplepromoter.messages;
+package com.stealthyone.mcb.simplepromoter.messages;
 
-import java.util.List;
-
+import com.stealthyone.mcb.simplepromoter.SimplePromoter;
+import com.stealthyone.mcb.stbukkitlib.lib.messages.HelpManager;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
-import com.stealthyone.bukkit.simplepromoter.SimplePromoter;
-import com.stealthyone.bukkit.stcommonlib.messages.HelpManager;
+import java.util.List;
 
 public enum HelpMessage {
 

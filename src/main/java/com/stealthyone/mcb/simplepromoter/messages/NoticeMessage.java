@@ -1,32 +1,29 @@
-package com.stealthyone.bukkit.simplepromoter.messages;
+package com.stealthyone.mcb.simplepromoter.messages;
 
+import com.stealthyone.mcb.simplepromoter.SimplePromoter;
+import com.stealthyone.mcb.stbukkitlib.lib.messages.IMessagePath;
+import com.stealthyone.mcb.stbukkitlib.lib.messages.MessageRetriever;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
-import com.stealthyone.bukkit.simplepromoter.SimplePromoter;
-import com.stealthyone.bukkit.stcommonlib.messages.IMessagePath;
-import com.stealthyone.bukkit.stcommonlib.messages.MessageRetriever;
-
-public enum ErrorMessage implements IMessagePath {
+public enum NoticeMessage implements IMessagePath {
 	
-	GROUPS_DONT_EXIST,
-	NAME_MATCHES_MULTIPLE,
-	NO_PERM_FOR_GROUPS,
-	NO_PERM_FOR_FROM,
-	PLAYER_DOESNT_EXIST,
-	NO_PERMISSION,
-	UNKNOWN_COMMAND;
+	PLAYER_PART_OF_GROUPS,
+	PLUGIN_RELOADED,
+	PROMOTION_MESSAGE,
+	PRIVATE_PROMOTION_MESSAGE,
+	YOU_PROMOTED;
 	  
-	private final String PREFIX = "messages.errors.";
+	private final String PREFIX = "messages.notices.";
 	  
 	private String path;
 	private boolean isList;
 	  
-	private ErrorMessage() {
+	private NoticeMessage() {
 		this(false);
 	}
 	  
-	private ErrorMessage(boolean isList) {
+	private NoticeMessage(boolean isList) {
 		this.path = this.toString().toLowerCase();
 		this.isList = isList;
 	}
@@ -55,8 +52,7 @@ public enum ErrorMessage implements IMessagePath {
 		String[] messages = messageRetriever.getMessage(this);
 		
 		for (String message : messages) {
-			message = ChatColor.RED + message;
-			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', message.replace("{TAG}", ChatColor.GOLD + "[" + SimplePromoter.getInstance().getName() + "] " + ChatColor.RED)));
+			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', message.replace("{TAG}", ChatColor.GOLD + "[" + SimplePromoter.getInstance().getName() + "] ")));
 		}
 	}
 	  
@@ -65,8 +61,7 @@ public enum ErrorMessage implements IMessagePath {
 		String[] messages = messageRetriever.getMessage(this);
 		
 		for (String message : messages) {
-			message = ChatColor.RED + message;
-			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', String.format(message.replace("{TAG}", ChatColor.GOLD + "[" + SimplePromoter.getInstance().getName() + "] " + ChatColor.RED), (Object[]) replacements)));
+			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', String.format(message.replace("{TAG}", ChatColor.GOLD + "[" + SimplePromoter.getInstance().getName() + "] "), (Object[]) replacements)));
 		}
 	}
 }

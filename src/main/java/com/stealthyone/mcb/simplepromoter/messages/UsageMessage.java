@@ -1,4 +1,4 @@
-package com.stealthyone.bukkit.simplepromoter.messages;
+package com.stealthyone.mcb.simplepromoter.messages;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;

@@ -1,10 +1,16 @@
-package com.stealthyone.bukkit.simplepromoter.commands;
+package com.stealthyone.mcb.simplepromoter.commands;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-
+import com.stealthyone.mcb.simplepromoter.SimplePromoter;
+import com.stealthyone.mcb.simplepromoter.SimplePromoter.Log;
+import com.stealthyone.mcb.simplepromoter.config.ConfigHelper;
+import com.stealthyone.mcb.simplepromoter.messages.ErrorMessage;
+import com.stealthyone.mcb.simplepromoter.messages.NoticeMessage;
+import com.stealthyone.mcb.simplepromoter.messages.UsageMessage;
+import com.stealthyone.mcb.simplepromoter.permissions.PermissionNode;
+import com.stealthyone.mcb.stbukkitlib.lib.utils.PlayerUtils;
+import com.stealthyone.mcb.stbukkitlib.lib.utils.StringUtils;
+import com.stealthyone.mcb.stbukkitlib.lib.utils.exceptions.NameMatchesMultiplePlayersException;
+import com.stealthyone.mcb.stbukkitlib.lib.utils.exceptions.NameMatchesNoPlayers;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -12,20 +18,12 @@ import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-
 import ru.tehkode.permissions.bukkit.PermissionsEx;
 
-import com.stealthyone.bukkit.advancedtitles.TitleManager;
-import com.stealthyone.bukkit.simplepromoter.SimplePromoter;
-import com.stealthyone.bukkit.simplepromoter.SimplePromoter.Log;
-import com.stealthyone.bukkit.simplepromoter.config.ConfigHelper;
-import com.stealthyone.bukkit.simplepromoter.messages.ErrorMessage;
-import com.stealthyone.bukkit.simplepromoter.messages.NoticeMessage;
-import com.stealthyone.bukkit.simplepromoter.messages.UsageMessage;
-import com.stealthyone.bukkit.stcommonlib.utils.NameMatchesMultiplePlayersException;
-import com.stealthyone.bukkit.stcommonlib.utils.NameMatchesNoPlayers;
-import com.stealthyone.bukkit.stcommonlib.utils.PlayerUtils;
-import com.stealthyone.bukkit.stcommonlib.utils.StringUtils;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 
 public final class CmdSetrank implements CommandExecutor {
 
@@ -37,7 +35,7 @@ public final class CmdSetrank implements CommandExecutor {
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if (!sender.hasPermission("simplepromoter.setrank")) {
+		if (!PermissionNode.SETRANK.isAllowed(sender)) {
 			// Permission check
 			ErrorMessage.NO_PERMISSION.sendTo(sender);
 		} else if (args.length < 2) {
@@ -75,7 +73,7 @@ public final class CmdSetrank implements CommandExecutor {
 				groupName = newArgsIterator.next();
 				if (!StringUtils.equalsIgnoreCaseMultiple(groupName, "yes", "no")) {
 					if (!PermissionsEx.getPermissionManager().getGroup(groupName).isVirtual()) {
-						if (!sender.hasPermission("simplepromoter.group." + groupName.toLowerCase())) {
+                        if (!PermissionNode.GROUP.isAllowed(sender, groupName.toLowerCase())) {
 							if (!noPermGroups.equalsIgnoreCase("")) {
 								noPermGroups += ", ";
 							}
@@ -83,7 +81,7 @@ public final class CmdSetrank implements CommandExecutor {
 							continue;
 						}
 						for (String fromGroup : PermissionsEx.getUser(target.getName()).getGroupsNames()) {
-							if (!sender.hasPermission("simplepromoter.from." + fromGroup.toLowerCase())) {
+                            if (!PermissionNode.FROM.isAllowed(sender, groupName.toLowerCase())) {
 								if (!notFromGroups.equalsIgnoreCase("")) {
 									notFromGroups += ", ";
 								}
@@ -150,17 +148,11 @@ public final class CmdSetrank implements CommandExecutor {
 
 			/* Set the rank(s) of the player */
 			String[] groupCast = allowedGroups.toArray(new String[allowedGroups.size()]);
-			if (plugin.isAdvancedTitles()) {
-				//If hooked with advanced titles, call settitle method
-				//AdvancedTitles is currently a private plugin, may be released on BukkitDev later
-				TitleManager titleManager = com.stealthyone.bukkit.advancedtitles.BasePlugin.getTitleManager();
-				titleManager.setTitle(targetName, groupCast);
-			}
 			
 			String messageToBroadcast = ChatColor.translateAlternateColorCodes('&', String.format(NoticeMessage.PROMOTION_MESSAGE.getMessage()[0], targetName, groups).replace("{a|an}", aChar));
 			String youPromoted = NoticeMessage.YOU_PROMOTED.getMessage()[0].replace("[", "").replace("]", "").replace("{a|an}", aChar);
 			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', String.format(youPromoted, targetName, groups)));
-			if (target.isOnline() && ConfigHelper.ENABLE_PROMOTION_SOUND.get()) {
+			if (target.isOnline() && ConfigHelper.ENABLE_PROMOTION_SOUND.getBoolean()) {
 				target.getPlayer().playSound(target.getPlayer().getLocation(), Sound.LEVEL_UP, 1.0F, 1.0F);
 			}
 			

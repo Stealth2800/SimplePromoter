@@ -1,6 +1,6 @@
-package com.stealthyone.bukkit.simplepromoter.config;
+package com.stealthyone.mcb.simplepromoter.config;
 
-import com.stealthyone.bukkit.simplepromoter.SimplePromoter;
+import com.stealthyone.mcb.simplepromoter.SimplePromoter;
 
 public enum ConfigBoolean {
 
@@ -14,7 +14,7 @@ public enum ConfigBoolean {
 		this.path = path;
 	}
 	
-	public final boolean get() {
+	public final boolean getBoolean() {
 		return SimplePromoter.getInstance().getConfig().getBoolean(path);
 	}
 	

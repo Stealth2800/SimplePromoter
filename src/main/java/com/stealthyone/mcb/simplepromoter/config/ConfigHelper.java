@@ -1,4 +1,4 @@
-package com.stealthyone.bukkit.simplepromoter.config;
+package com.stealthyone.mcb.simplepromoter.config;
 
 public final class ConfigHelper {
 	

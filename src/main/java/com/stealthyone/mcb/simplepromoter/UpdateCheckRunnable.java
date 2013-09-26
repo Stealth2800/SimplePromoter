@@ -1,8 +1,7 @@
-package com.stealthyone.bukkit.simplepromoter.utils;
+package com.stealthyone.mcb.simplepromoter;
 
-import com.stealthyone.bukkit.simplepromoter.SimplePromoter;
-import com.stealthyone.bukkit.simplepromoter.SimplePromoter.Log;
-import com.stealthyone.bukkit.simplepromoter.config.ConfigHelper;
+import com.stealthyone.mcb.simplepromoter.SimplePromoter.Log;
+import com.stealthyone.mcb.simplepromoter.config.ConfigHelper;
 
 public final class UpdateCheckRunnable implements Runnable {
 		
@@ -14,7 +13,7 @@ public final class UpdateCheckRunnable implements Runnable {
 	
 	@Override
 	public final void run() {
-		if (ConfigHelper.CHECK_FOR_UPDATES.get()) {
+		if (ConfigHelper.CHECK_FOR_UPDATES.getBoolean()) {
 			UpdateChecker updateChecker = new UpdateChecker(plugin);
 			updateChecker.checkForUpdates();
 			if (updateChecker.isUpdateNeeded()) {
