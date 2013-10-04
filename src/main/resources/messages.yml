@@ -5,7 +5,7 @@ messages:
     name_matches_multiple: '&cName matches multiple players.'
     no_perm_for_groups: '&cYou do not have permission for group{s} &6%s&c.'
     no_perm_for_from: '&cYou do not have permission to set the group(s) of a user in group(s) &6%s&c.'
-    no_permission: '&cYou do not have permission for this command!'
+    no_permission: '&cYou do not have permission for this command.'
     unknown_command: '{TAG}&cUnknown command.'
   notices:
     player_part_of_groups: '&aPlayer &6%s &ais part of group{s}: &6%s'

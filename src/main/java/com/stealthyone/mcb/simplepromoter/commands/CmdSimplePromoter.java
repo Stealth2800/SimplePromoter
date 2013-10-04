@@ -98,7 +98,7 @@ public final class CmdSimplePromoter implements CommandExecutor {
 	 */
 	private final void cmdVersion(CommandSender sender, Command command, String label, String[] args) {
 		sender.sendMessage(ChatColor.GREEN + plugin.getName() + ChatColor.GOLD + " v" + plugin.getVersion());
-		sender.sendMessage(ChatColor.GOLD + "Created by " + plugin.getDescription().getAuthors() + ChatColor.GRAY + "-" + ChatColor.AQUA + "http://stealthyone.com/bukkit");
+		sender.sendMessage(ChatColor.GOLD + "Created by Stealth2800" + ChatColor.GRAY + " - " + ChatColor.AQUA + "http://stealthyone.com/bukkit");
 		sender.sendMessage(ChatColor.GOLD + "BukkitDev: " + ChatColor.AQUA + plugin.getDescription().getWebsite());
 		UpdateChecker updateChecker = new UpdateChecker(plugin);
 		if (updateChecker.isUpdateNeeded()) {
