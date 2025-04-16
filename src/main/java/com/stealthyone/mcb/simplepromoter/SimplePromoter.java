@@ -43,13 +43,13 @@ public final class SimplePromoter extends JavaPlugin {
 		return instance;
 	}
 	
-	public final static String UPDATE_URL = "http://dev.bukkit.org/server-mods/simplepromoter/files.rss";
-	
 	private Logger logger;
 	
 	private HelpManager helpHandler;
 	private MessageRetriever messageHandler;
-	
+
+    private UpdateChecker updateChecker;
+
 	@Override
 	public final void onLoad() {
 		logger = getServer().getLogger();
@@ -72,8 +72,8 @@ public final class SimplePromoter extends JavaPlugin {
 		getCommand("checkrank").setExecutor(new CmdCheckrank(this));
 		getCommand("setrank").setExecutor(new CmdSetrank(this));
 		getCommand("simplepromoter").setExecutor(new CmdSimplePromoter(this));
-		
-		getServer().getScheduler().runTaskTimerAsynchronously(this, new UpdateCheckRunnable(this), 40, 432000);
+
+        updateChecker = UpdateChecker.scheduleForMe(this, "http://dev.bukkit.org/server-mods/simplepromoter/files.rss");
 		Log.info(String.format("%s v%s by Stealth2800 enabled!", getName(), getVersion()));
 	}
 	
@@ -93,5 +93,9 @@ public final class SimplePromoter extends JavaPlugin {
 	public final MessageRetriever getMessageHandler() {
 		return this.messageHandler;
 	}
+
+    public final UpdateChecker getUpdateChecker() {
+        return updateChecker;
+    }
 
 }

@@ -1,7 +1,6 @@
 package com.stealthyone.mcb.simplepromoter.commands;
 
 import com.stealthyone.mcb.simplepromoter.SimplePromoter;
-import com.stealthyone.mcb.simplepromoter.UpdateChecker;
 import com.stealthyone.mcb.simplepromoter.messages.ErrorMessage;
 import com.stealthyone.mcb.simplepromoter.messages.HelpMessage;
 import com.stealthyone.mcb.simplepromoter.messages.NoticeMessage;
@@ -100,8 +99,8 @@ public final class CmdSimplePromoter implements CommandExecutor {
 		sender.sendMessage(ChatColor.GREEN + plugin.getName() + ChatColor.GOLD + " v" + plugin.getVersion());
 		sender.sendMessage(ChatColor.GOLD + "Created by Stealth2800" + ChatColor.GRAY + " - " + ChatColor.AQUA + "http://stealthyone.com/bukkit");
 		sender.sendMessage(ChatColor.GOLD + "BukkitDev: " + ChatColor.AQUA + plugin.getDescription().getWebsite());
-		UpdateChecker updateChecker = new UpdateChecker(plugin);
-		if (updateChecker.isUpdateNeeded()) {
+		UpdateChecker updateChecker = plugin.getUpdateChecker();
+		if (updateChecker.checkForUpdates(false)) {
 			String curVer = plugin.getVersion();
 			String remVer = updateChecker.getNewVersion();
 			sender.sendMessage(ChatColor.RED + "A different version was found on BukkitDev! (Current: " + curVer + " | Remote: " + remVer + ")");
